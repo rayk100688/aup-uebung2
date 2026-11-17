@@ -1,0 +1,49 @@
+/*
+Bei Gleitkommazahlen ist folgendes zu beachten: 
+- es wird nicht jede Zahl exakt im Speicher abgebildet (0.1 wird beispielsweise gerundet).
+    Das erzeugt Rundungsfehler bei Rechnungen
+- jedes Ergebnis einer Gleitkommazahlenberechnung kann erneut eine Rundung sein. 
+    Rekursionsschritte sollten minimal sein,
+- der Abstand zwischen benachbarten Gleitkommazahlen is am kleinsten im unteren Bereich des Wertebereichs
+    und am größten im oberen Bereich des Wertebereichs
+- Rechenoperationen mit Gleitkommazahlen stark unterschiedlicher Größe erzeugen große Fehler
+    Auch die Reihenfolge von Rechenoperationen die Kommutativ sind (+,*) beeinflusst den Ergebnisfehler 
+    -->heißt: a+b ist nicht unbedingt b+a, gerade wenn a und b sehr unterschiedlich im Wertebereich liegen
+- Rechenoperationen nähern sich unter Umständen an Werte an (hier:Null), erreichen den aber nie
+    daher sind abfragen eher mit < und > in einer Toleranz als mit == zu verwirklichen
+*/
+fn is_multiple(larger:f32, smaller:f32) -> bool {
+	fn verdopplungsrest (groesser:f32, kleiner:f32)->f32{      //Hilfsfunktion, die den divisor (smaller) verdoppelt 
+		if groesser>=2.0*kleiner {                               //so lange wie der Divisor mehr als 2 mal im Divident enthalten ist
+		verdopplungsrest (groesser,2.0*kleiner)                  //Verdopplung erfolgt rekursiv
+		}                                                        //Das Vorgehen reduziert die Rekursionsschleifen wenn Divident viel größer als Divisor ist
+		else{                                                    //Sobald der Divident groß genug ist
+		groesser-kleiner                                         //Wird die Differenz gebildet und zurück gegeben
+		}                                                        //Ist diese Differenz null oder ein Vielfaches von smaller 
+	}                                                          //ist auch larger ein vielfaches von smaller
+  //_____________Hilfsfunktion ende_____________________
+	if smaller ==0.0 {                                         //Defense gegen Division durch null
+	false
+	}
+	else if larger<0.0 {                                       //Defense gegen negativen Divident (Vorzeichen hat keinen Einfluss auf teilbarkeit)
+	is_multiple (-1.0*larger,smaller)
+	}
+	else if smaller<0.0 {                                      //Defense gegen negativen Divisor (Vorzeichen hat keinen Einfluss auf teilbarkeit)
+	is_multiple (larger,-1.0*smaller)
+	} 
+	else if verdopplungsrest(larger,smaller)>=2.0*smaller{    //Rekursionsschleife falls der Rest der Verdopplung mehr als doppelt so groß
+	is_multiple (verdopplungsrest(larger,smaller),smaller)    //wie der divisor ist -> Wenn der Rest ein Vielfaches ist ist auch larger eines
+	}
+	else if verdopplungsrest (larger,smaller)<0.0000001{      //Abbruch wenn das Ergebnis nahe genug an der Null liegt
+	true                                                      //dann ist larger ein Teiler von smaller
+	}
+	else {                                                    //Ist der Rest wesentlich größer,  dann ist larger kein Teiler von smaller
+  //fürs debugging die Rückgabe des Ergebnisses an der Stelle -> Kommentar entfernen falls gewünscht
+	//println!("{} ist Restwert der Teilung",verdopplungsrest(larger,smaller)); 
+	false
+	}
+}
+//__________________Main_____________________________
+fn main (){
+println!("{}",is_multiple(24.0,3.0));  //Ausgabe des Ergebnisses von "is_multiple"
+}
