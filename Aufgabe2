@@ -1,0 +1,102 @@
+//Ich benutze das Konzept der Traits aus der Vorlesung
+
+trait PrintType {                                            //Trait wird angelegt
+	fn print_type (self) where Self: Sized {                   //Erstellen der Funktion print_type in allgemeiner Form
+	print! ("Hi, ich bin ein primitiver Typ: ");               //Bei jedem Aufruf erfolgt die Textausgabe (ohne Zeilenwechsel)
+	self.antwort();                                            //Bei jedem Aufruf wird die Funktion antwort aufgerufen
+	}
+	fn antwort (self);                                         //Erstellen der Funktion antwort in Allgemeinform im Trait
+}
+//__________Implementierungen_U8-U128_______________
+impl PrintType for u8 {                                      //Bei Aufruf mit einem U8-Typ wird diese Implementierung ausgeführt
+	fn antwort (self){                                         //Funktionsdefinition von Antwort für die Implementierung U8 des Traits 
+	println!("U8");                                            //In dieser Implementierung schreibe U8 (mit Zeilenwechsel)
+	}                                                          //Analog erfolgt die Implementierung für alle weiteren Typen
+}
+impl PrintType for u16 {
+	fn antwort (self){
+	println!("U16");
+	}
+}
+impl PrintType for u32 {
+	fn antwort (self){
+	println!("U32");
+	}
+}
+impl PrintType for u64 {
+	fn antwort (self){
+	println!("U64");
+	}
+}
+impl PrintType for u128 {
+	fn antwort (self){
+	println!("U128");
+	}
+}
+//__________Implementierungen_I8-I128_______________
+impl PrintType for i8 {
+	fn antwort (self){
+	println!("I8");
+	}
+}
+impl PrintType for i16 {
+	fn antwort (self){
+	println!("I16");
+	}
+}
+impl PrintType for i32 {
+	fn antwort (self){
+	println!("I32");
+	}
+}
+impl PrintType for i64 {
+	fn antwort (self){
+	println!("I64");
+	}
+}
+impl PrintType for i128 {
+	fn antwort (self){
+	println!("U128");
+	}
+}
+//__________Implementierungen_F32&F64________________
+impl PrintType for f32 {
+	fn antwort (self){
+	println!("F32");
+	}
+}
+impl PrintType for f64 {
+	fn antwort (self){
+	println!("F64");
+	}
+}
+//__________Implementierung_BOOL_____________________
+impl PrintType for bool {
+	fn antwort (self){
+	println!("BOOL");
+	}
+}
+//__________Implementierung_CHAR_____________________
+impl PrintType for char {
+	fn antwort (self){
+	println!("CHAR");
+	}
+}
+//__________Implementierungen_U8-U128_______________
+//__________Main____________________________________
+fn main () {
+ 42_u8.print_type();          //Aufruf der Methode print_type in der Implementierung für U8
+ 42_u16.print_type();
+ 42_u32.print_type();
+ 42_u64.print_type();
+ 42_u128.print_type();
+ 42_i8.print_type();
+ 42_i16.print_type();
+ 42_i32.print_type();
+ 42_i64.print_type();
+ 42_i128.print_type();
+ 42.0_f32.print_type();
+ 42.0_f64.print_type();
+ true.print_type();
+ 'R'.print_type();
+}
