@@ -1,0 +1,21 @@
+//__________Trait_anlegen__________
+trait DigitCounter {
+	fn count_digits (self,z:usize)->usize;    //Muss in jeder Implementierung definiert werden (kein Scope)
+}
+//__________Imlementierungen_______
+impl DigitCounter for u64 {
+	fn count_digits (self,z:usize)->usize{    //Rekursive Funktion
+		if self%10!=self {
+		(self/10).count_digits(z+1)
+		} 
+		else{
+		z                               //Rückgabe bei Abbruch der Rekursion als u64-kompatibel
+		}
+	}
+}
+//Implementierung von f64 muss noch ergänzt werden.
+
+//__________Main___________________
+fn main (){
+    println!("{}",1234567890.count_digits(1));
+}
