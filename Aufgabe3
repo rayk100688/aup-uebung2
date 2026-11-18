@@ -1,0 +1,235 @@
+use std::fmt::Display;
+//___________Trait_Einrichten____________________
+trait GroessenVergleich	{
+	fn groessenvergleich (self)->bool where Self:Sized+Display{  //damit self in print! (bei .auswertung()) verwendet werden kann gilt Self:Sized+Display
+	    self.typangabe().wertausgabe().auswertung()              //Dreifache Verkettung von Methoden
+	}                                                            //Bedingt übergabe von self bis .auswertung()
+	fn typangabe (self)->Self;                                   //Rückgabe von Self für übergabe an .wertausgabe()
+	fn auswertung(self)->bool;                                   //Rückgabe von bool für übergabe an .groessenvergleich()
+	fn wertausgabe (self)->Self where Self:Sized+Display {       //Rückgabe von Self für übergabe an .auswertung()
+	    print!("ist der Wert {} ",self);                         //damit self in print! verwendet werden kann gilt Self:Sized+Display
+	    self                                                     //Funktionsrückgabe (self)
+	}
+}
+//___________Implementierungen_U8-U128___________
+impl GroessenVergleich for u8 {
+	fn typangabe (self)->Self{                                   //Definition .typenangabe in jeder Implementation da in trait kein Scope
+		print!("Im Wertebereich von U8 ");
+		self                                                       //Funktionsrückgabe (self)
+	}
+	fn auswertung (self)->bool {
+		if self >= (2_u8.pow(7)-1) {                               //u8 sind Werte von 0-255. Die Mitte liegt bei 127 (2^7-1)
+		println!("groß");
+		true                                                       //Funktionsrückgabe true
+		}
+		else {
+		println!("klein");
+		false                                                      //Funktionsrückgabe false
+		}
+	}
+}
+impl GroessenVergleich for u16 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von U16 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= (2_u16.pow(15)-1) {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for u32 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von U32 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= (2_u32.pow(31)-1) {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for u64 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von U64 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= (2_u64.pow(63)-1) {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for u128 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von U128 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= (2_u128.pow(127)-1) {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+//___________Implementierungen_I8-I128___________
+impl GroessenVergleich for i8 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von i8 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0 {                                                //i8 sind Werte von -128 bis 127. Die Mitte liegt bei 0
+		println!("groß");                                             //das ist für jede Variante i8-i128 so, da der Wertebereich +- Symmetrisch ist
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for i16 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von i16 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0 {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for i32 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von i32 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0 {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for i64 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von i64 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0 {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for i128 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von i128 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0 {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+//___________Implementierungen_F32&F64___________
+impl GroessenVergleich for f32 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von f32 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0.0 {                                        //Gleitkommazahl nach IEEE, die Mitte des Wertebereichs ist 0.0                                                          
+		println!("groß");                                       //weil der Wertebereich +- Symmetrisch ist
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+impl GroessenVergleich for f64 {
+	fn typangabe (self)->Self{
+		print!("Im Wertebereich von f64 ");
+		self
+	}
+	fn auswertung (self)->bool {
+		if self >= 0.0 {
+		println!("groß");
+		true
+		}
+		else {
+		println!("klein");
+		false
+		}
+	}
+}
+//___________Main________________________________
+fn main(){
+	(2_u8.pow(7)-1).groessenvergleich();
+	(2_u8.pow(7)-2).groessenvergleich();
+	(2_u16.pow(15)-1).groessenvergleich();
+	(2_u16.pow(15)-2).groessenvergleich();
+	(2_u32.pow(31)-1).groessenvergleich();
+	(2_u32.pow(31)-2).groessenvergleich();
+	(2_u64.pow(63)-1).groessenvergleich();
+	(2_u64.pow(63)-2).groessenvergleich();
+	(2_u128.pow(127)-1).groessenvergleich();
+	(2_u128.pow(127)-2).groessenvergleich();
+	0_i8.groessenvergleich();
+	(-1_i8).groessenvergleich();
+	0_i16.groessenvergleich();
+	(-1_i16).groessenvergleich();
+	0_i32.groessenvergleich();
+	(-1_i32).groessenvergleich();
+	0_i64.groessenvergleich();
+	(-1_i64).groessenvergleich();
+	0_i128.groessenvergleich();
+	(-1_i128).groessenvergleich();
+	0.1_f32.groessenvergleich();
+	(-0.1_f32).groessenvergleich();
+	0.0_f32.groessenvergleich();
+	(-0.1_f32).groessenvergleich();
+}
